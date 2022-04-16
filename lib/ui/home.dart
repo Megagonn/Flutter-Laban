@@ -59,14 +59,14 @@ class _HomeState extends State<Home> {
                     decoration: InputDecoration(
                       isDense: true,
                       suffix: const Icon(
-                        Icons.search_outlined, color: Colors.grey,
+                        Icons.search_outlined,
+                        color: Colors.grey,
                       ),
                       suffixIconConstraints: const BoxConstraints(
                         maxWidth: 20,
-                        maxHeight:20,
+                        maxHeight: 20,
                       ),
                       hintText: "Search products",
-                      
                       fillColor: Colors.white,
                       filled: true,
                       border: OutlineInputBorder(
@@ -78,25 +78,27 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Stack(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children:[
-                    // ignore: prefer_const_constructors
-                    CircleAvatar(
-                      backgroundColor: white,
-                      child: Icon(Icons.notifications_outlined, color: grey,),
-                    ),
-                    Positioned(
-                      child: Container(
-                        width: 10,
-                        height:10,
-                        decoration: BoxDecoration(
-                          color: primary,
-                          borderRadius: BorderRadius.circular(100),
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      // ignore: prefer_const_constructors
+                      CircleAvatar(
+                        backgroundColor: white,
+                        child: Icon(
+                          Icons.notifications_outlined,
+                          color: grey,
                         ),
                       ),
-                    )
-                  ]
-                )
+                      Positioned(
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: primary,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                        ),
+                      )
+                    ])
               ],
             ),
             const SizedBox(
@@ -107,38 +109,120 @@ class _HomeState extends State<Home> {
               // padding: const EdgeInsets.symmetric(vertical: 5),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children:[
-                    const Category(text: "Technology"),
-                    const SizedBox(
-                      width: 10
-                    ),
-                    const Category(text: "Sport"),
-                    const SizedBox(
-                      width: 10
-                    ),
-                    const Category(text: "Gadget"),
-                    const SizedBox(
-                      width: 10
-                    ),
-                    const Category(text: "Home Appliances"),
-                    const SizedBox(
-                      width: 10
-                    ),
-                    const Category(text: "Wears"),
-                    const SizedBox(
-                      width: 10
-                    ),
-                    const Category(text: "Fashion"),
-                    
-                    
-                    
-                  ]
-                ),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Category(text: "Technology"),
+                      const SizedBox(width: 10),
+                      const Category(text: "Sport"),
+                      const SizedBox(width: 10),
+                      const Category(text: "Gadget"),
+                      const SizedBox(width: 10),
+                      const Category(text: "Home Appliances"),
+                      const SizedBox(width: 10),
+                      const Category(text: "Wears"),
+                      const SizedBox(width: 10),
+                      const Category(text: "Fashion"),
+                    ]),
               ),
             ),
+            const SizedBox(
+              width: 10,
+            ),
+            Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Hot Sales",
+                        style: Theme.of(context).textTheme.headline6,
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  FutureBuilder(
+                      future: getProducts(),
+                      builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox.shrink();
+                        } else {
+                          var data = jsonDecode(snapshot.data);
+                          var list = <Widget>[];
+                          for (var i = 0; i < data.length; i++) {
+                            var map = Product.toMap(data[i]);
+                            list.add(map.discount
+                                ? Container(
+                                    padding: const EdgeInsets.all(8),
+                                    margin: const EdgeInsets.only(right: 5),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade400,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Flexible(
+                                          child: Container(
+                                            padding: const EdgeInsets.all(2),
+                                            decoration: BoxDecoration(
+                                                color: white,
+                                                borderRadius:
+                                                    BorderRadius.circular(30)),
+                                            child: Text(
+                                              "Free shiping",
+                                              style: TextStyle(color: primary),
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            height: 100,
+                                            margin: const EdgeInsets.all(10),
+                                            child: Image.network(map.pics),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            map.name,
+                                            // style: const TextStyle(
+                                            //     fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: Container(
+                                              margin:
+                                                  const EdgeInsets.only(top: 4),
+                                              child: Text(
+                                                "#${map.price}",
+                                                style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox.shrink());
+                          }
+                          // print(list);
+                          return SizedBox(
+                            height: 200,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: list,
+                              ),
+                            ),
+                          );
+                        }
+                      })
+                ])),
             SingleChildScrollView(
               child: FutureBuilder(
                   future: getProducts(),
@@ -150,7 +234,7 @@ class _HomeState extends State<Home> {
                     } else {
                       var data = snapshot.data;
                       var json = (jsonDecode(data));
-            
+
                       return SizedBox(
                         height: 300,
                         child: GridView.builder(
@@ -160,7 +244,8 @@ class _HomeState extends State<Home> {
                             itemCount: json!.length,
                             itemBuilder: (context, value) {
                               var map = Product.toMap(json[value]);
-                              return CircleAvatar(child: Image.network(map.pics));
+                              return CircleAvatar(
+                                  child: Image.network(map.pics));
                             }),
                       );
                     }
