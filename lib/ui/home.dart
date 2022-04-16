@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:laban/color.dart';
 import 'package:laban/model/model.product.dart';
 import 'package:laban/utilities/cat.utl.dart';
+import 'package:laban/utilities/gen.utl.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
 
 class Home extends StatefulWidget {
@@ -186,16 +187,18 @@ class _HomeState extends State<Home> {
                       var json = (jsonDecode(data));
 
                       return SizedBox(
-                        height: 300,
+                        height: 320,
                         child: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
+                                  mainAxisSpacing: 8,
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: 310
+                                    ),
                             itemCount: json!.length,
                             itemBuilder: (context, value) {
                               var map = Product.toMap(json[value]);
-                              return CircleAvatar(
-                                  child: Image.network(map.pics));
+                              return Products(map: map);
                             }),
                       );
                     }

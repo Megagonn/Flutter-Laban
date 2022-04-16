@@ -11,7 +11,7 @@ class HotSales extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(right: 5),
+      margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
           color: Colors.grey.shade400, borderRadius: BorderRadius.circular(15)),
       child: Column(
