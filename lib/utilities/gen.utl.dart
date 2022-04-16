@@ -4,15 +4,16 @@ import 'package:laban/model/model.product.dart';
 import '../color.dart';
 
 class Products extends StatefulWidget {
-  const Products({Key? key, required this.map}) : super(key: key);
+  const Products({Key? key, required this.map, required this.bg}) : super(key: key);
   final Product map;
+  final Color bg;
 
   @override
   State<Products> createState() => _ProductsState();
 }
 
 class _ProductsState extends State<Products> {
-  // ignore: unnecessary_this
+  bool filled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,28 +23,40 @@ class _ProductsState extends State<Products> {
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-          color: Colors.grey.shade400, borderRadius: BorderRadius.circular(15)),
+          color:widget.bg, borderRadius: BorderRadius.circular(15)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-                color: white, borderRadius: BorderRadius.circular(30)),
-            child: CircleAvatar(
-              child: IconButton(
-                icon: const Icon(Icons.favorite_border_outlined),
-                onPressed: () {},
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    color: white, borderRadius: BorderRadius.circular(30)),
+                child: CircleAvatar(
+                  backgroundColor: trans,
+                  child: IconButton(
+                    icon: Icon(
+                      !filled ? Icons.favorite_border_outlined : Icons.favorite,
+                      color: primary,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        filled = !filled;
+                      });
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
           Center(
             child: Container(
               // height: 200,
               margin: const EdgeInsets.all(5),
               child: AspectRatio(
-                aspectRatio: 2/3,
-                child: Image.network(widget.map.pics)),
+                  aspectRatio: 2 / 3, child: Image.network(widget.map.pics)),
             ),
           ),
           Text(

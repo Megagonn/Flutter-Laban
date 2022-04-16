@@ -191,14 +191,13 @@ class _HomeState extends State<Home> {
                         child: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 8,
+                                    mainAxisSpacing: 8,
                                     crossAxisCount: 2,
-                                    mainAxisExtent: 310
-                                    ),
+                                    mainAxisExtent: 310),
                             itemCount: json!.length,
                             itemBuilder: (context, value) {
                               var map = Product.toMap(json[value]);
-                              return Products(map: map);
+                              return Products(map: map, bg: value % 2 == 0? c1 : c2,);
                             }),
                       );
                     }
