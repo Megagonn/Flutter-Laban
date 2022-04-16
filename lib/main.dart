@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laban/ui/home.dart';
 import 'package:laban/ui/login.dart';
 import 'package:laban/ui/signup.dart';
 
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: 
+      home: Home(),
       // Login()
-      SignUp(),
+      // SignUp(),
     );
   }
 }
