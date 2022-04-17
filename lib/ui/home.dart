@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laban/color.dart';
 import 'package:laban/model/model.product.dart';
+import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cat.utl.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
@@ -157,7 +158,17 @@ class _HomeState extends State<Home> {
                           for (var i = 0; i < data.length; i++) {
                             var map = Product.toMap(data[i]);
                             list.add(map.discount
-                                ? HotSales(map: map)
+                                ? InkWell(child: HotSales(map: map),onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) => const Goods()),
+                                      settings: RouteSettings(
+                                        arguments: map
+                                      ),
+                                    ),
+                                  );
+                                },)
                                 : const SizedBox.shrink());
                           }
                           // print(list);
@@ -174,34 +185,52 @@ class _HomeState extends State<Home> {
                         }
                       })
                 ])),
-            SingleChildScrollView(
-              child: FutureBuilder(
-                  future: getProducts(),
-                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator.adaptive(
-                        backgroundColor: primary,
-                      );
-                    } else {
-                      var data = snapshot.data;
-                      var json = (jsonDecode(data));
-
-                      return SizedBox(
-                        height: 320,
-                        child: GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 8,
-                                    crossAxisCount: 2,
-                                    mainAxisExtent: 310),
-                            itemCount: json!.length,
-                            itemBuilder: (context, value) {
-                              var map = Product.toMap(json[value]);
-                              return Products(map: map, bg: value % 2 == 0? c1 : c2,);
-                            }),
-                      );
-                    }
-                  }),
+            Flexible(
+              child: SingleChildScrollView(
+                child: FutureBuilder(
+                    future: getProducts(),
+                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator.adaptive(
+                          backgroundColor: primary,
+                        );
+                      } else {
+                        var data = snapshot.data;
+                        var json = (jsonDecode(data));
+            
+                        return SizedBox(
+                          height: 320,
+                          child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisSpacing: 8,
+                                      crossAxisCount: 2,
+                                      mainAxisExtent: 310),
+                              itemCount: json!.length,
+                              itemBuilder: (context, value) {
+                                var map = Product.toMap(json[value]);
+                                return InkWell(
+                                  child: Products(
+                                    map: map,
+                                    bg: value % 2 == 0 ? c1 : c2,
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) => const Goods()),
+                                        settings: RouteSettings(
+                                          arguments: map
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
+                        );
+                      }
+                    }),
+              ),
             ),
           ],
         ),

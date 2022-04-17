@@ -8,3 +8,4 @@ Color lgrey = const Color.fromARGB(255, 248, 242, 242);
 Color trans = Colors.transparent;
 Color c1 = const Color(0xffefc5e0);
 Color c2 = const Color(0xffD5C7DF);
+Color orange = const Color(0xffff5500);
