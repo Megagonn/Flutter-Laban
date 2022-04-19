@@ -9,3 +9,4 @@ Color trans = Colors.transparent;
 Color c1 = const Color(0xffefc5e0);
 Color c2 = const Color(0xffD5C7DF);
 Color orange = const Color(0xffff5500);
+Color dgrey = const Color(0xff636767);

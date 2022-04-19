@@ -19,7 +19,7 @@ class HotSales extends StatelessWidget {
         children: [
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(2),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 7),
               decoration: BoxDecoration(
                   color: white, borderRadius: BorderRadius.circular(30)),
               child: Text(

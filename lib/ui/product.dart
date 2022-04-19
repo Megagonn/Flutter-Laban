@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:laban/ui/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color.dart';
+import '../utilities/backbutton.dart';
 
 class Goods extends StatefulWidget {
   const Goods({Key? key}) : super(key: key);
@@ -34,18 +36,7 @@ class _GoodsState extends State<Goods> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          backgroundColor: trans,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.chevron_left_sharp,
-                              color: orange,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
+                        const BackBtn(),
                         CircleAvatar(
                           backgroundColor: trans,
                           child: IconButton(
@@ -80,6 +71,22 @@ class _GoodsState extends State<Goods> {
                                 pref.setString(
                                     'favourites', jsonEncode(favourites));
                               }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  padding: const EdgeInsets.all(15),
+                                  backgroundColor: lgrey,
+                                  elevation: 10,
+                                  duration: const Duration(seconds: 2),
+                                  content: Text(
+                                    "Added to cart",
+                                    style: TextStyle(
+                                      color: orange,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -200,7 +207,7 @@ class _GoodsState extends State<Goods> {
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        if (_counter >= 1) {
+                                        if (_counter > 1) {
                                           setState(() {
                                             _counter--;
                                           });
@@ -215,16 +222,6 @@ class _GoodsState extends State<Goods> {
                                           _counter++;
                                         });
                                       }
-                                      // if (_counter == product.quantity) {
-                                      //   showDialog(
-                                      //     context: context,
-                                      //     builder: (context) => SnackBar(
-                                      //       // onClosing: () {},
-                                      //      content :Text(
-                                      //           'The available quantity is ${product.quantity}'),
-                                      //     ),
-                                      //   );
-                                      // }
                                     },
                                     icon: const Icon(
                                       Icons.add,
@@ -244,7 +241,14 @@ class _GoodsState extends State<Goods> {
                                 ],
                               ),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) => Purchase()),
+                                          settings: RouteSettings(
+                                              arguments: {"map": product, "count":_counter})));
+                                },
                                 child: Text(
                                   "Buy Now",
                                   style: TextStyle(color: white),
