@@ -17,7 +17,8 @@ class _PurchaseState extends State<Purchase> {
   @override
   Widget build(BuildContext context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
-    var total = int.parse(data['map'].price) * (data['count']);
+    var subTotal = (int.parse(data['map'].price) * (data['count']));
+    var total = (int.parse(data['map'].price) * (data['count'])) + (int.parse(data['map'].shippingFee));
     var strTotal = total.toString();
     // String a = '9';
     // int b = 5;
@@ -290,14 +291,14 @@ class _PurchaseState extends State<Purchase> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Subtotal (${data['count']} items)"),
-                          Text("# $strTotal")
+                          Text("# $subTotal")
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text("Shipping cost"),
-                          Text("Free shipping")
+                        children: [
+                          const Text("Shipping cost"),
+                          Text("#${data['map'].shippingFee}")
                         ],
                       ),
                       Divider(color: dgrey, height: 4),

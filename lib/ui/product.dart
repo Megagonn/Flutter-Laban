@@ -150,15 +150,14 @@ class _GoodsState extends State<Goods> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            product.newp
-                                ? Text(
-                                    "Free shipping",
+                             Text(
+                                    "Shipping fee: #${product.shippingFee}",
                                     style: TextStyle(
                                       color: orange,
                                       fontSize: 13,
                                     ),
-                                  )
-                                : const SizedBox.shrink(),
+                                  ),
+                                // : const SizedBox.shrink(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -262,7 +261,8 @@ class _GoodsState extends State<Goods> {
                                           builder: ((context) => Purchase()),
                                           settings: RouteSettings(arguments: {
                                             "map": product,
-                                            "count": _counter
+                                            "count": _counter,
+                                            // "shippingFee": ,
                                           })));
                                 },
                                 child: Text(

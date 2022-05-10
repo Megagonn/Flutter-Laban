@@ -3,19 +3,19 @@ class Product {
   final dynamic name;
   final dynamic description;
   final dynamic price;
+  final dynamic shippingFee;
   final dynamic category;
   final dynamic pics;
-  final bool newp, discount;
+  final bool discount;
   final int quantity;
 
-  Product({
+  Product({required this.shippingFee, 
     required this.id,
     required this.name,
     required this.description,
     required this.price,
     required this.category,
     required this.pics,
-    required this.newp,
     required this.discount,
     required this.quantity,
   });
@@ -28,8 +28,8 @@ class Product {
         price: map['price'],
         category: map['category'],
         pics: map['pictureUrl'],
-        newp: map['new'],
         discount: map['discount'],
-        quantity: map['quantity']);
+        quantity: map['quantity'], 
+        shippingFee: map['shippingFee']);
   }
 }
