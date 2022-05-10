@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bottom_animation/bottom_animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laban/color.dart';
@@ -8,6 +10,19 @@ import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cat.utl.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
+
+
+class MyBottomNavItem {
+  final String title;
+  final Widget widget;
+  final IconData? iconData;
+
+  MyBottomNavItem({
+    required this.title,
+    required this.widget,
+    this.iconData,
+  });
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -105,10 +120,10 @@ class _HomeState extends State<Home> {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Container(
-              height: 70,
+              height: 50,
               // padding: const EdgeInsets.symmetric(vertical: 5),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -129,12 +144,13 @@ class _HomeState extends State<Home> {
                     ]),
               ),
             ),
-            const SizedBox(
-              width: 10,
-            ),
+            // const SizedBox(
+            //   width: 5,
+            // ),
             Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: Column(children: [
+              margin: const EdgeInsets.only(bottom: 8),
+              child: Column(
+                children: [
                   Row(
                     children: [
                       Text(
@@ -158,17 +174,19 @@ class _HomeState extends State<Home> {
                           for (var i = 0; i < data.length; i++) {
                             var map = Product.toMap(data[i]);
                             list.add(map.discount
-                                ? InkWell(child: HotSales(map: map),onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) => const Goods()),
-                                      settings: RouteSettings(
-                                        arguments: map
-                                      ),
-                                    ),
-                                  );
-                                },)
+                                ? InkWell(
+                                    child: HotSales(map: map),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) => const Goods()),
+                                          settings:
+                                              RouteSettings(arguments: map),
+                                        ),
+                                      );
+                                    },
+                                  )
                                 : const SizedBox.shrink());
                           }
                           // print(list);
@@ -184,7 +202,20 @@ class _HomeState extends State<Home> {
                           );
                         }
                       })
-                ])),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  "All Product",
+                  style: Theme.of(context).textTheme.headline6,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             Flexible(
               child: SingleChildScrollView(
                 child: FutureBuilder(
@@ -197,7 +228,7 @@ class _HomeState extends State<Home> {
                       } else {
                         var data = snapshot.data;
                         var json = (jsonDecode(data));
-            
+
                         return SizedBox(
                           height: 320,
                           child: GridView.builder(
@@ -219,9 +250,7 @@ class _HomeState extends State<Home> {
                                       context,
                                       MaterialPageRoute(
                                         builder: ((context) => const Goods()),
-                                        settings: RouteSettings(
-                                          arguments: map
-                                        ),
+                                        settings: RouteSettings(arguments: map),
                                       ),
                                     );
                                   },

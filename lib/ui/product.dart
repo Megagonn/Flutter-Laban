@@ -61,15 +61,29 @@ class _GoodsState extends State<Goods> {
                               color: primary,
                             ),
                             onPressed: () async {
-                              List favourites = [];
                               SharedPreferences pref =
                                   await SharedPreferences.getInstance();
-                              favourites.add(pref.get('favourites'));
-                              if (favourites.isEmpty) {
-                                pref.setString('favourites', product);
-                              } else {
+                              // pref.clear();
+                              List cart = [];
+                              var favourites = (pref.get('carts'));
+                              if (favourites == null) {
                                 pref.setString(
-                                    'favourites', jsonEncode(favourites));
+                                    'carts',
+                                    jsonEncode({
+                                      "pics": product.pics,
+                                      "price": product.price,
+                                      "name": product.name,
+                                      "count": _counter,
+                                    }));
+                              } else {
+                                cart.addAll([favourites]);
+                                cart.add({
+                                  "pics": product.pics,
+                                  "price": product.price,
+                                  "name": product.name,
+                                  "count": _counter
+                                });
+                                pref.setString('carts', jsonEncode(cart));
                               }
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -246,8 +260,10 @@ class _GoodsState extends State<Goods> {
                                       context,
                                       MaterialPageRoute(
                                           builder: ((context) => Purchase()),
-                                          settings: RouteSettings(
-                                              arguments: {"map": product, "count":_counter})));
+                                          settings: RouteSettings(arguments: {
+                                            "map": product,
+                                            "count": _counter
+                                          })));
                                 },
                                 child: Text(
                                   "Buy Now",

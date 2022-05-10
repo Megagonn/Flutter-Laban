@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laban/ui/home.dart';
+import 'package:laban/ui/landing.dart';
 import 'package:laban/ui/login.dart';
 import 'package:laban/ui/signup.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Home(),
+      home: const Landing()
+      // Home(),
       // Login()
       // SignUp(),
     );

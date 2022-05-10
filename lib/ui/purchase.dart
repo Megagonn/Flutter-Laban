@@ -99,7 +99,7 @@ class _PurchaseState extends State<Purchase> {
                       margin: const EdgeInsets.symmetric(
                         vertical: 5,
                       ),
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: dgrey,
                         boxShadow: [
@@ -123,8 +123,8 @@ class _PurchaseState extends State<Purchase> {
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                vertical: 11,
-                                horizontal: 20,
+                                vertical: 15,
+                                horizontal: 35,
                               ),
                               decoration: BoxDecoration(
                                 color: shipping ? white : dgrey,
@@ -146,8 +146,8 @@ class _PurchaseState extends State<Purchase> {
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                vertical: 11,
-                                horizontal: 20,
+                                vertical: 15,
+                                horizontal: 35,
                               ),
                               decoration: BoxDecoration(
                                 color: shipping ? dgrey : white,
