@@ -16,9 +16,9 @@ class MyDb {
   Future<Database> init() async {
     //get the path using getDatabasesPath()
     return await openDatabase(
-      join(await getDatabasesPath(), "favourites.db"),
+      join(await getDatabasesPath(), "cart.db"),
       onCreate: (db, version) {
-        db.execute('CREATE TABLE Favourites (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price TEXT, category TEXT, description TEXT, image TEXT, shippingFee INTEGER)');
+        db.execute('CREATE TABLE Cart (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price TEXT, category TEXT, description TEXT, image TEXT,disc TEXT,count INT, shippingFee INTEGER)');
       },
       version: 1,
     );
@@ -27,7 +27,7 @@ class MyDb {
   //---------Get the data from the database-------
   getDatabaseInfo() async {
     var db = await database;
-    var info = await db.query("favourites");
+    var info = await db.query("cart");
     if (info.isEmpty) {
       return null;
     } else {
@@ -37,7 +37,7 @@ class MyDb {
 
   addDatabase(Product product,int count) async {
     var db = await database;
-    await db.insert("favourites", product.toMap(product, count),
+    await db.insert("cart", product.toMap(product, count),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
@@ -46,9 +46,9 @@ class MyDb {
   //   await db.update('note', product.toMap(product), where: 'id = ?', whereArgs: [id]);
   // }
 
-  // toDelete(int id) async {
-  //   var db = await database;
-  //   await db.delete('note', where: 'id = ?', whereArgs: [id]);
-  //   await db.rawDelete('DELETE FROM note WHERE id = ?', [id]);
-  // }
+  toDelete() async {
+    var db = await database;
+    // await db.delete('note', where: 'id = ?', whereArgs: [id]);
+    await db.rawDelete('DELETE FROM cart');
+  }
 }

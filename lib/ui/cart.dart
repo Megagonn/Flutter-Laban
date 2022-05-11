@@ -19,8 +19,10 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   List cartList = [];
   bool carted = true;
+  bool canCheckOut = false;
   getCart() async {
     var info = await MyDb.db.getDatabaseInfo();
+    info != null ? canCheckOut = true : null;
     return info;
   }
 
@@ -57,45 +59,49 @@ class _CartState extends State<Cart> {
                         backgroundColor: primary,
                       );
                     } else {
-                      var data = snapshot.data;
-                      cartList = data;
-                      // print(data);
-
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height - 200,
-                        child: GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 8,
-                                    crossAxisCount: 2,
-                                    mainAxisExtent: 280),
-                            itemCount: data!.length,
-                            itemBuilder: (context, value) {
-                              var map = Product.fromMapCart(data[value]);
-                              return InkWell(
-                                child: Products(
-                                  map: map,
-                                  bg: value % 2 == 0 ? c1 : c2,
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: ((context) => const Goods()),
-                                      settings: RouteSettings(arguments: map),
-                                    ),
-                                  );
-                                },
-                              );
-                            }),
-                      );
+                      if (snapshot.hasData) {
+                        var data = snapshot.data;
+                        cartList = data;
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisSpacing: 8,
+                                      crossAxisCount: 2,
+                                      mainAxisExtent: 280),
+                              itemCount: data!.length,
+                              itemBuilder: (context, value) {
+                                var map = Product.fromMapCart(data[value]);
+                                return InkWell(
+                                  child: Products(
+                                    map: map,
+                                    bg: value % 2 == 0 ? c1 : c2,
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: ((context) => const Goods()),
+                                        settings: RouteSettings(arguments: map),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
+                        );
+                      } else {
+                        return const Center(
+                          child: Text('Your cart is empty'),
+                        );
+                      }
                     }
                   }),
               Container(
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: orange,
+                  color: canCheckOut ? orange : lgrey,
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: const [
                     // BoxShadow(blurRadius: .5, spreadRadius: .9)
@@ -103,15 +109,17 @@ class _CartState extends State<Cart> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CartPurchase(),
-                            settings: RouteSettings(arguments: cartList)));
+                    canCheckOut
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CartPurchase(),
+                                settings: RouteSettings(arguments: cartList)))
+                        : null;
                   },
                   child: Text(
                     "Check Out",
-                    style: TextStyle(color: white),
+                    style: TextStyle(color: !canCheckOut ? dgrey : white),
                   ),
                 ),
               ),

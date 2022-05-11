@@ -17,15 +17,17 @@ class _CartPurchaseState extends State<CartPurchase> {
   @override
   Widget build(BuildContext context) {
     dynamic cartList = ModalRoute.of(context)!.settings.arguments;
-    var data = cartList;
     num subTotal = 0;
     num total = 0;
+    num count = 0;
+    num shippingFee = shipping ? 1050 : 550;
     for (var i = 0; i < cartList.length; i++) {
-      subTotal = (int.parse(cartList[i]['price']) * (cartList[i]['count']));
-      total = (int.parse(cartList[i]['price']) * (cartList[i]['count'])) +
+      count = count + (cartList[i]['count']);
+      subTotal = subTotal + (int.parse(cartList[i]['price']) * (cartList[i]['count']));
+      total = subTotal * count +
           (shipping ? 1050 : 550);
     }
-      var strTotal = total.toString();
+    var strTotal = total.toString();
     return SafeArea(
       child: Scaffold(
         backgroundColor: lgrey,
@@ -64,31 +66,31 @@ class _CartPurchaseState extends State<CartPurchase> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 70,
-                      backgroundColor: trans,
-                      child: AspectRatio(
-                          aspectRatio: 2 / 3,
-                          child: Image.network(data['map'].pics)),
-                    ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(data['map'].name,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w500)),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "# ${data['map'].price}",
-                            style: TextStyle(
-                                color: orange,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ])
+                    // CircleAvatar(
+                    //   radius: 70,
+                    //   backgroundColor: trans,
+                    //   child: AspectRatio(
+                    //       aspectRatio: 2 / 3,
+                    //       child: Image.network(data['map'].pics)),
+                    // ),
+                    // Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //     children: [
+                    //       Text(data['map'].name,
+                    //           style: const TextStyle(
+                    //               fontSize: 20, fontWeight: FontWeight.w500)),
+                    //       const SizedBox(
+                    //         height: 5,
+                    //       ),
+                    //       Text(
+                    //         "# ${data['map'].price}",
+                    //         style: TextStyle(
+                    //             color: orange,
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     ])
                   ],
                 ),
               ),
@@ -293,7 +295,7 @@ class _CartPurchaseState extends State<CartPurchase> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Subtotal (${data['count']} items)"),
+                          Text("Subtotal ($count items)"),
                           Text("# $subTotal")
                         ],
                       ),
@@ -301,7 +303,7 @@ class _CartPurchaseState extends State<CartPurchase> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text("Shipping cost"),
-                          Text("#${data['map'].shippingFee}")
+                          Text("#$shippingFee")
                         ],
                       ),
                       Divider(color: dgrey, height: 4),

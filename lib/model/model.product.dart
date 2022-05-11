@@ -52,7 +52,6 @@ class Product {
       "name": map.name,
       "image": map.pics,
       "price": map.price,
-      "discount": false,
       "category": map.category,
       "description": map.description,
       "shippingFee": map.shippingFee,

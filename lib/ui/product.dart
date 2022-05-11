@@ -76,20 +76,21 @@ class _GoodsState extends State<Goods> {
                               color: primary,
                             ),
                             onPressed: () async {
-                              List favourites = await MyDb.db.getDatabaseInfo();
+                              // await MyDb.db.toDelete();
+                              List favourites = await MyDb.db.getDatabaseInfo() ?? [];
                               var checkCart = favourites.where((element) =>
                                   element['name'] == product.name &&
                                   element['price'] == product.price);
                               if (checkCart.isEmpty) {
+                                await MyDb.db.addDatabase(product, _counter);
                                 SnackSheet().snack(
                                     context: context,
                                     message: "Product added to cart");
                               } else {
-                                await MyDb.db.addDatabase(product, _counter);
                                 SnackSheet().snack(
                                     context: context,
                                     message:
-                                        "Product already added added to cart");
+                                        "Product already added to cart");
                               }
                             },
                           ),
