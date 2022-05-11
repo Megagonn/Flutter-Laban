@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
+import 'package:laban/model/model.db.dart';
 import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,22 +17,27 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   List list = [];
   bool carted = true;
-  getCart() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var cart = jsonDecode(pref.getString('carts')!) ?? '';
-    // print(cart);
-    if (cart.isEmpty) {
-      setState(() {
-        carted = false;
-      });
-      return carted;
-    } else {
-      setState(() {
-        list.addAll(cart);
-      });
-      print(list);
-      return cart;
-    }
+  // getCart() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   var cart = jsonDecode(pref.getString('carts')!) ?? '';
+  //   // print(cart);
+  //   if (cart.isEmpty) {
+  //     setState(() {
+  //       carted = false;
+  //     });
+  //     return carted;
+  //   } else {
+  //     setState(() {
+  //       list.addAll(cart);
+  //     });
+  //     print(list);
+  //     return cart;
+  //   }
+  // }
+  getCart() async{
+    var info = await MyDb.db.getDatabaseInfo();
+    print(info);
+    return info;
   }
 
   @override

@@ -172,7 +172,7 @@ class _HomeState extends State<Home> {
                           var data = jsonDecode(snapshot.data);
                           var list = <Widget>[];
                           for (var i = 0; i < data.length; i++) {
-                            var map = Product.toMap(data[i]);
+                            var map = Product.fromMap(data[i]);
                             list.add(map.discount
                                 ? InkWell(
                                     child: HotSales(map: map),
@@ -239,7 +239,7 @@ class _HomeState extends State<Home> {
                                       mainAxisExtent: 310),
                               itemCount: json!.length,
                               itemBuilder: (context, value) {
-                                var map = Product.toMap(json[value]);
+                                var map = Product.fromMap(json[value]);
                                 return InkWell(
                                   child: Products(
                                     map: map,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:laban/model/model.db.dart';
 import 'package:laban/ui/purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,19 @@ class _GoodsState extends State<Goods> {
   // ignore: prefer_final_fields
   int _counter = 1;
   // int get counter => _counter;
+  // getCart() async {
+  //   var info = await MyDb.db.getDatabaseInfo();
+  //   print(info);
+  //   return info;
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getCart();
+  }
+
   @override
   Widget build(BuildContext context) {
     dynamic product = ModalRoute.of(context)!.settings.arguments;
@@ -61,30 +75,32 @@ class _GoodsState extends State<Goods> {
                               color: primary,
                             ),
                             onPressed: () async {
-                              SharedPreferences pref =
-                                  await SharedPreferences.getInstance();
+                              // SharedPreferences pref =
+                              //     await SharedPreferences.getInstance();
                               // pref.clear();
-                              List cart = [];
-                              var favourites = (pref.get('carts'));
-                              if (favourites == null) {
-                                pref.setString(
-                                    'carts',
-                                    jsonEncode({
-                                      "pics": product.pics,
-                                      "price": product.price,
-                                      "name": product.name,
-                                      "count": _counter,
-                                    }));
-                              } else {
-                                cart.addAll([favourites]);
-                                cart.add({
-                                  "pics": product.pics,
-                                  "price": product.price,
-                                  "name": product.name,
-                                  "count": _counter
-                                });
-                                pref.setString('carts', jsonEncode(cart));
-                              }
+                              // List cart = [];
+                              // var favourites = (pref.get('carts'));
+                              // if (favourites == null) {
+                              //   pref.setString(
+                              //       'carts',
+                              //       jsonEncode({
+                              //         "pics": product.pics,
+                              //         "price": product.price,
+                              //         "name": product.name,
+                              //         "count": _counter,
+                              //       }));
+                              // } else {
+                              //   cart.addAll([favourites]);
+                              //   cart.add({
+                              //     "pics": product.pics,
+                              //     "price": product.price,
+                              //     "name": product.name,
+                              //     "count": _counter
+                              //   });
+                              //   pref.setString('carts', jsonEncode(cart));
+                              // }
+                              await MyDb.db.database;
+                              await MyDb.db.addDatabase(product);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   padding: const EdgeInsets.all(15),
@@ -150,14 +166,14 @@ class _GoodsState extends State<Goods> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                             Text(
-                                    "Shipping fee: #${product.shippingFee}",
-                                    style: TextStyle(
-                                      color: orange,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                // : const SizedBox.shrink(),
+                            Text(
+                              "Shipping fee: #${product.shippingFee}",
+                              style: TextStyle(
+                                color: orange,
+                                fontSize: 13,
+                              ),
+                            ),
+                            // : const SizedBox.shrink(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -258,7 +274,8 @@ class _GoodsState extends State<Goods> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: ((context) => Purchase()),
+                                          builder: ((context) =>
+                                              const Purchase()),
                                           settings: RouteSettings(arguments: {
                                             "map": product,
                                             "count": _counter,

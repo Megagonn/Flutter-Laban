@@ -18,7 +18,7 @@ class _PurchaseState extends State<Purchase> {
   Widget build(BuildContext context) {
     dynamic data = ModalRoute.of(context)!.settings.arguments;
     var subTotal = (int.parse(data['map'].price) * (data['count']));
-    var total = (int.parse(data['map'].price) * (data['count'])) + (int.parse(data['map'].shippingFee));
+    var total = (int.parse(data['map'].price) * (data['count'])) + (int.parse(data['map'].shippingFee)) + (shipping ? 500 : 0);
     var strTotal = total.toString();
     // String a = '9';
     // int b = 5;

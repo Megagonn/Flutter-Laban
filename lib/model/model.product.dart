@@ -9,7 +9,8 @@ class Product {
   final bool discount;
   final int quantity;
 
-  Product({required this.shippingFee, 
+  Product({
+    required this.shippingFee,
     required this.id,
     required this.name,
     required this.description,
@@ -20,7 +21,7 @@ class Product {
     required this.quantity,
   });
 
-  factory Product.toMap(Map<dynamic, dynamic> map) {
+  factory Product.fromMap(Map<dynamic, dynamic> map) {
     return Product(
         id: map['_id'],
         name: map['name'],
@@ -29,7 +30,20 @@ class Product {
         category: map['category'],
         pics: map['pictureUrl'],
         discount: map['discount'],
-        quantity: map['quantity'], 
+        quantity: map['quantity'],
         shippingFee: map['shippingFee']);
   }
+  Map<String, dynamic> toMap(map) {
+    return {
+      "name": map.name,
+      "image": map.pics,
+      "price": map.price,
+      "category": map.category,
+      "description": map.description,
+      "shippingFee": map.shippingFee,
+    };
+  }
 }
+// '''
+//             CREATE TABLE favourite (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, price TEXT, category TEXT, description TEXT, image TEXT, shipping_fee INTEGER,)
+//           '''
