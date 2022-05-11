@@ -67,7 +67,7 @@ class _LandingState extends State<Landing> {
         items: items,
         activeIconColor: orange,
         deActiveIconColor: lgrey,
-        backgroundColor: orange,
+        backgroundColor: c1,
         onItemSelect: (val) {
           setState(() {
             cIndex = val;

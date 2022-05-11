@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:laban/model/model.db.dart';
 import 'package:laban/ui/purchase.dart';
+import 'package:laban/utilities/snackbar.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color.dart';
@@ -75,48 +76,19 @@ class _GoodsState extends State<Goods> {
                               color: primary,
                             ),
                             onPressed: () async {
-                              // SharedPreferences pref =
-                              //     await SharedPreferences.getInstance();
-                              // pref.clear();
-                              // List cart = [];
-                              // var favourites = (pref.get('carts'));
-                              // if (favourites == null) {
-                              //   pref.setString(
-                              //       'carts',
-                              //       jsonEncode({
-                              //         "pics": product.pics,
-                              //         "price": product.price,
-                              //         "name": product.name,
-                              //         "count": _counter,
-                              //       }));
-                              // } else {
-                              //   cart.addAll([favourites]);
-                              //   cart.add({
-                              //     "pics": product.pics,
-                              //     "price": product.price,
-                              //     "name": product.name,
-                              //     "count": _counter
-                              //   });
-                              //   pref.setString('carts', jsonEncode(cart));
-                              // }
-                              await MyDb.db.database;
-                              await MyDb.db.addDatabase(product);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  padding: const EdgeInsets.all(15),
-                                  backgroundColor: lgrey,
-                                  elevation: 10,
-                                  duration: const Duration(seconds: 2),
-                                  content: Text(
-                                    "Added to cart",
-                                    style: TextStyle(
-                                      color: orange,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              );
+                              List favourites = await MyDb.db.getDatabaseInfo();
+                              var checkCart = favourites.where((element) =>
+                                  element['name'] == product.name &&
+                                  element['price'] == product.price);
+                              if (checkCart.isEmpty) {
+                                SnackSheet().snack(
+                                      context: context,
+                                      message: "Product added to cart");
+                              } else {
+                                SnackSheet().snack(
+                                      context: context,
+                                      message: "Product already added added to cart");
+                              }
                             },
                           ),
                         ),
