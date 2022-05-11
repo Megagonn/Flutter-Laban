@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
 import 'package:laban/model/model.db.dart';
+import 'package:laban/model/model.product.dart';
 import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +16,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  List list = [];
+  List list = [1, '.'];
   bool carted = true;
   // getCart() async {
   //   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -34,9 +35,8 @@ class _CartState extends State<Cart> {
   //     return cart;
   //   }
   // }
-  getCart() async{
+  getCart() async {
     var info = await MyDb.db.getDatabaseInfo();
-    print(info);
     return info;
   }
 
@@ -54,15 +54,89 @@ class _CartState extends State<Cart> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              carted ? ListView.builder(
-                shrinkWrap: true,
-                itemCount: list.length,
-                itemBuilder: ((context, index) {
-                  return SizedBox.shrink()
-                  // Products(map: list[index], bg: trans)
-                     ;
-                }),
-              )  : const Center(child: Text('Your cart is empty')),
+              Row(
+                children: [
+                  Text(
+                    "Cart",
+                    style: Theme.of(context).textTheme.headline6,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              FutureBuilder(
+                  future: getCart(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator.adaptive(
+                        backgroundColor: primary,
+                      );
+                    } else {
+                      var data = snapshot.data;
+                      print(data);
+
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height-200,
+                        child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 8,
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: 280),
+                            itemCount: data!.length,
+                            itemBuilder: (context, value) {
+                              var map = Product.fromMapCart(data[value]);
+                              return InkWell(
+                                child: Products(
+                                  map: map,
+                                  bg: value % 2 == 0 ? c1 : c2,
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: ((context) => const Goods()),
+                                      settings: RouteSettings(arguments: map),
+                                    ),
+                                  );
+                                },
+                              );
+                            }),
+                      );
+                    }
+                  }),
+                  Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                color: orange,
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: const [
+                                  // BoxShadow(blurRadius: .5, spreadRadius: .9)
+                                ],
+                              ),
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Check Out",
+                                  style: TextStyle(color: white),
+                                ),
+                              ),
+                            ),
+              // carted
+              //     ? ListView.builder(
+              //         shrinkWrap: true,
+              //         itemCount: list.length,
+              //         itemBuilder: ((context, index) {
+              //           List cart = getCart();
+              //           print(list);
+              //           return SizedBox.shrink()
+              //               // Products(map: list[index], bg: trans)
+              //               ;
+              //         }),
+              //       )
+              //     : const Center(child: Text('Your cart is empty')),
               //   Flexible(
               //   child: Container(
               //     height: 250,
@@ -104,24 +178,24 @@ class _CartState extends State<Cart> {
               //                       // fontSize: 15, fontWeight: FontWeight.w500))
               //             ],
               //           ),
-              //           Container(
-              //                 width: MediaQuery.of(context).size.width,
-              //                 padding: const EdgeInsets.all(3),
-              //                 decoration: BoxDecoration(
-              //                   color: orange,
-              //                   borderRadius: BorderRadius.circular(30),
-              //                   boxShadow: const [
-              //                     // BoxShadow(blurRadius: .5, spreadRadius: .9)
-              //                   ],
-              //                 ),
-              //                 child: TextButton(
-              //                   onPressed: () {},
-              //                   child: Text(
-              //                     "Finalise Purchase",
-              //                     style: TextStyle(color: white),
-              //                   ),
-              //                 ),
-              //               ),
+                        // Container(
+                        //       width: MediaQuery.of(context).size.width,
+                        //       padding: const EdgeInsets.all(3),
+                        //       decoration: BoxDecoration(
+                        //         color: orange,
+                        //         borderRadius: BorderRadius.circular(30),
+                        //         boxShadow: const [
+                        //           // BoxShadow(blurRadius: .5, spreadRadius: .9)
+                        //         ],
+                        //       ),
+                        //       child: TextButton(
+                        //         onPressed: () {},
+                        //         child: Text(
+                        //           "Finalise Purchase",
+                        //           style: TextStyle(color: white),
+                        //         ),
+                        //       ),
+                        //     ),
               //         ]),
               //   ),
               // )

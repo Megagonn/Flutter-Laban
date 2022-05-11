@@ -33,11 +33,24 @@ class Product {
         quantity: map['quantity'],
         shippingFee: map['shippingFee']);
   }
+  factory Product.fromMapCart(Map<dynamic, dynamic> map) {
+    return Product(
+        id: map['id'],
+        name: map['name'],
+        description: map['description'],
+        price: map['price'],
+        category: map['category'],
+        pics: map['image'],
+        discount: map['discount'] ?? false,
+        quantity: map['quantity'] ?? 20,
+        shippingFee: map['shippingFee']);
+  }
   Map<String, dynamic> toMap(map) {
     return {
       "name": map.name,
       "image": map.pics,
       "price": map.price,
+      "discount": false,  
       "category": map.category,
       "description": map.description,
       "shippingFee": map.shippingFee,

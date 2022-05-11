@@ -53,7 +53,7 @@ class _ProductsState extends State<Products> {
           ),
           Center(
             child: Container(
-              // height: 200,
+              height: 150,
               margin: const EdgeInsets.all(5),
               child: AspectRatio(
                   aspectRatio: 2 / 3, child: Image.network(widget.map.pics)),
