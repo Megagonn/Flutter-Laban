@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
 import 'package:laban/model/model.db.dart';
 import 'package:laban/model/model.product.dart';
+import 'package:laban/ui/cartPurchase.dart';
 import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,25 +17,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  List list = [1, '.'];
+  List cartList = [];
   bool carted = true;
-  // getCart() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   var cart = jsonDecode(pref.getString('carts')!) ?? '';
-  //   // print(cart);
-  //   if (cart.isEmpty) {
-  //     setState(() {
-  //       carted = false;
-  //     });
-  //     return carted;
-  //   } else {
-  //     setState(() {
-  //       list.addAll(cart);
-  //     });
-  //     print(list);
-  //     return cart;
-  //   }
-  // }
   getCart() async {
     var info = await MyDb.db.getDatabaseInfo();
     return info;
@@ -74,10 +58,11 @@ class _CartState extends State<Cart> {
                       );
                     } else {
                       var data = snapshot.data;
-                      print(data);
+                      cartList = data;
+                      // print(data);
 
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height-200,
+                        height: MediaQuery.of(context).size.height - 200,
                         child: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -106,24 +91,30 @@ class _CartState extends State<Cart> {
                       );
                     }
                   }),
-                  Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: const EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                color: orange,
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: const [
-                                  // BoxShadow(blurRadius: .5, spreadRadius: .9)
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "Check Out",
-                                  style: TextStyle(color: white),
-                                ),
-                              ),
-                            ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: orange,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: const [
+                    // BoxShadow(blurRadius: .5, spreadRadius: .9)
+                  ],
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CartPurchase(),
+                            settings: RouteSettings(arguments: cartList)));
+                  },
+                  child: Text(
+                    "Check Out",
+                    style: TextStyle(color: white),
+                  ),
+                ),
+              ),
               // carted
               //     ? ListView.builder(
               //         shrinkWrap: true,
@@ -178,24 +169,24 @@ class _CartState extends State<Cart> {
               //                       // fontSize: 15, fontWeight: FontWeight.w500))
               //             ],
               //           ),
-                        // Container(
-                        //       width: MediaQuery.of(context).size.width,
-                        //       padding: const EdgeInsets.all(3),
-                        //       decoration: BoxDecoration(
-                        //         color: orange,
-                        //         borderRadius: BorderRadius.circular(30),
-                        //         boxShadow: const [
-                        //           // BoxShadow(blurRadius: .5, spreadRadius: .9)
-                        //         ],
-                        //       ),
-                        //       child: TextButton(
-                        //         onPressed: () {},
-                        //         child: Text(
-                        //           "Finalise Purchase",
-                        //           style: TextStyle(color: white),
-                        //         ),
-                        //       ),
-                        //     ),
+              // Container(
+              //       width: MediaQuery.of(context).size.width,
+              //       padding: const EdgeInsets.all(3),
+              //       decoration: BoxDecoration(
+              //         color: orange,
+              //         borderRadius: BorderRadius.circular(30),
+              //         boxShadow: const [
+              //           // BoxShadow(blurRadius: .5, spreadRadius: .9)
+              //         ],
+              //       ),
+              //       child: TextButton(
+              //         onPressed: () {},
+              //         child: Text(
+              //           "Finalise Purchase",
+              //           style: TextStyle(color: white),
+              //         ),
+              //       ),
+              //     ),
               //         ]),
               //   ),
               // )

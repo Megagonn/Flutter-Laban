@@ -35,9 +35,9 @@ class MyDb {
     }
   }
 
-  addDatabase(Product product) async {
+  addDatabase(Product product,int count) async {
     var db = await database;
-    await db.insert("favourites", product.toMap(product),
+    await db.insert("favourites", product.toMap(product, count),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 

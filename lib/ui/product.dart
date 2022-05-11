@@ -82,12 +82,14 @@ class _GoodsState extends State<Goods> {
                                   element['price'] == product.price);
                               if (checkCart.isEmpty) {
                                 SnackSheet().snack(
-                                      context: context,
-                                      message: "Product added to cart");
+                                    context: context,
+                                    message: "Product added to cart");
                               } else {
+                                await MyDb.db.addDatabase(product, _counter);
                                 SnackSheet().snack(
-                                      context: context,
-                                      message: "Product already added added to cart");
+                                    context: context,
+                                    message:
+                                        "Product already added added to cart");
                               }
                             },
                           ),
