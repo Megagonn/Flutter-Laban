@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:laban/model/model.db.dart';
+import 'package:laban/payment/payment.dart';
 import 'package:laban/ui/purchase.dart';
 import 'package:laban/utilities/snackbar.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,7 +78,8 @@ class _GoodsState extends State<Goods> {
                             ),
                             onPressed: () async {
                               // await MyDb.db.toDelete();
-                              List favourites = await MyDb.db.getDatabaseInfo() ?? [];
+                              List favourites =
+                                  await MyDb.db.getDatabaseInfo() ?? [];
                               var checkCart = favourites.where((element) =>
                                   element['name'] == product.name &&
                                   element['price'] == product.price);
@@ -89,8 +91,7 @@ class _GoodsState extends State<Goods> {
                               } else {
                                 SnackSheet().snack(
                                     context: context,
-                                    message:
-                                        "Product already added to cart");
+                                    message: "Product already added to cart");
                               }
                             },
                           ),
@@ -246,16 +247,19 @@ class _GoodsState extends State<Goods> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: ((context) =>
-                                              const Purchase()),
-                                          settings: RouteSettings(arguments: {
-                                            "map": product,
-                                            "count": _counter,
-                                            // "shippingFee": ,
-                                          })));
+                                  PayNow(email: 'abc@gmail.com', price: int.parse(product.price), ctx: context).chargeNow();
+                                  // print(product);
+
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: ((context) =>
+                                  //             const Purchase()),
+                                  //         settings: RouteSettings(arguments: {
+                                  //           "map": product,
+                                  //           "count": _counter,
+                                  //           // "shippingFee": ,
+                                  //         })));
                                 },
                                 child: Text(
                                   "Buy Now",
@@ -273,5 +277,17 @@ class _GoodsState extends State<Goods> {
             ),
           ),
         ));
+  }
+
+  // ignore: unused_element
+  _buildQuickPay() {
+    showBottomSheet(
+        context: context,
+        builder: ((context) => Container(
+              padding: const EdgeInsets.all(20),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              child: Column(children: [Text('Pay')]),
+            )));
   }
 }

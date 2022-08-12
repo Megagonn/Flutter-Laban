@@ -32,6 +32,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_native_splash: ^2.1.6
+  flutter_paystack: ^1.0.5+1
+  # flutter_paystack_payment: ^0.1.2+4
   http: ^0.13.4
   shared_preferences: ^2.0.13
   shimmer: ^2.0.0

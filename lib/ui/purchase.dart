@@ -52,43 +52,43 @@ class _PurchaseState extends State<Purchase> {
                 ],
               ),
             ),
-            Container(
-              // height: 200,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 5,
-              ),
-              child: Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleAvatar(
-                      radius: 70,
-                      backgroundColor: trans,
-                      child: AspectRatio(
-                          aspectRatio: 2 / 3,
-                          child: Image.network(data['map'].pics)),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                      Text(data['map'].name,
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500)),
-                              const SizedBox(height:5,),
-                      Text(
-                        "# ${data['map'].price}",
-                        style: TextStyle(
-                            color: orange,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ])
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 200,
+            //   padding: const EdgeInsets.symmetric(
+            //     horizontal: 20,
+            //     vertical: 5,
+            //   ),
+            //   child: Flexible(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         CircleAvatar(
+            //           radius: 70,
+            //           backgroundColor: trans,
+            //           child: AspectRatio(
+            //               aspectRatio: 2 / 3,
+            //               child: Image.network(data['map'].pics)),
+            //         ),
+            //         Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //           children: [
+            //           Text(data['map'].name,
+            //               style: const TextStyle(
+            //                   fontSize: 20, fontWeight: FontWeight.w500)),
+            //                   const SizedBox(height:5,),
+            //           Text(
+            //             "# ${data['map'].price}",
+            //             style: TextStyle(
+            //                 color: orange,
+            //                 fontSize: 15,
+            //                 fontWeight: FontWeight.w500),
+            //           ),
+            //         ])
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Flexible(
