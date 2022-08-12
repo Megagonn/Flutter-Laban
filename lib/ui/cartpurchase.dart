@@ -27,11 +27,11 @@ class _CartPurchaseState extends State<CartPurchase> {
       total = subTotal * count +
           (shipping ? 1050 : 550);
     }
-    var strTotal = total.toString();
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: lgrey,
-        body: Column(
+    var strTotal = subTotal.toString();
+    return Scaffold(
+      backgroundColor: lgrey,
+      body: SafeArea(
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),

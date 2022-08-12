@@ -230,13 +230,14 @@ class _HomeState extends State<Home> {
                         var json = (jsonDecode(data));
 
                         return SizedBox(
-                          height: 320,
+                          height: 290,
                           child: GridView.builder(
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       mainAxisSpacing: 8,
                                       crossAxisCount: 2,
-                                      mainAxisExtent: 310),
+                                      mainAxisExtent: 230,
+                                      ),
                               itemCount: json!.length,
                               itemBuilder: (context, value) {
                                 var map = Product.fromMap(json[value]);

@@ -247,11 +247,16 @@ class _SignUpState extends State<SignUp> {
                               ),
                               child: TextFormField(
                                 validator: (val) {
-                                  var regexp = RegExp(
+                                if(val.toString().isEmpty){
+                                  return "Please fill in an email address";
+                                } else{
+                                var regexp = RegExp(
                                       r"^[a-z0-9A-Z.]{2,}@[a-z]{3,}\.[a-z]{2,}$");
                                   return regexp.hasMatch(val!)
                                       ? null
                                       : "Please fill in a valid email address";
+                                }
+                                  
                                 },
                                 cursorColor: primary,
                                 controller: emailController,

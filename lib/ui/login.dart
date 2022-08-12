@@ -99,7 +99,7 @@ class _LoginState extends State<Login> {
                               return val.toString().isEmpty
                                   ? "Please fill in your password"
                                   : val.toString().length < 7
-                                      ? "Password must be atleast 7 characters long"
+                                      ? "Password must be at least 7 characters long"
                                       : null;
                             },
                             obscureText: obscural,
