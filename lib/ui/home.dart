@@ -10,7 +10,7 @@ import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cat.utl.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
-
+import 'package:shimmer/shimmer.dart';
 
 class MyBottomNavItem {
   final String title;
@@ -70,20 +70,19 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                SizedBox(
-                  width: 280,
-                  height: 50,
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
+                      alignLabelWithHint: true,
                       isDense: true,
                       suffix: const Icon(
                         Icons.search_outlined,
                         color: Colors.grey,
                       ),
-                      suffixIconConstraints: const BoxConstraints(
-                        maxWidth: 20,
-                        maxHeight: 20,
-                      ),
+                      // suffixIconConstraints: const BoxConstraints(
+                      //   maxWidth: 20,
+                      //   maxHeight: 20,
+                      // ),
                       hintText: "Search products",
                       fillColor: Colors.white,
                       filled: true,
@@ -94,6 +93,9 @@ class _HomeState extends State<Home> {
                     ),
                     cursorColor: grey,
                   ),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Stack(
                     // ignore: prefer_const_literals_to_create_immutables
@@ -167,7 +169,7 @@ class _HomeState extends State<Home> {
                       builder: (context, AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const SizedBox.shrink();
+                          return _shimmerBuilder(context);
                         } else {
                           var data = jsonDecode(snapshot.data);
                           var list = <Widget>[];
@@ -222,8 +224,16 @@ class _HomeState extends State<Home> {
                     future: getProducts(),
                     builder: (context, AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator.adaptive(
-                          backgroundColor: primary,
+                        return Column(
+                          children: [
+                            _shimmerBuilder(context),
+                            const SizedBox(height: 20,),
+                            _shimmerBuilder(context),
+                            const SizedBox(height: 20,),
+                            _shimmerBuilder(context),
+                            const SizedBox(height: 20,),
+                            _shimmerBuilder(context),
+                          ],
                         );
                       } else {
                         var data = snapshot.data;
@@ -234,10 +244,10 @@ class _HomeState extends State<Home> {
                           child: GridView.builder(
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisSpacing: 8,
-                                      crossAxisCount: 2,
-                                      mainAxisExtent: 230,
-                                      ),
+                                mainAxisSpacing: 8,
+                                crossAxisCount: 2,
+                                mainAxisExtent: 230,
+                              ),
                               itemCount: json!.length,
                               itemBuilder: (context, value) {
                                 var map = Product.fromMap(json[value]);
@@ -266,5 +276,126 @@ class _HomeState extends State<Home> {
         ),
       ),
     ));
+  }
+
+  Widget _shimmerBuilder(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2,
+            // height: 90.0,
+            child: Shimmer.fromColors(
+              baseColor: white,
+              highlightColor: grey,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2.0),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2.0),
+                        ),
+                        Container(
+                          width: 40.0,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                        
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2,
+            // height: 90.0,
+            child: Shimmer.fromColors(
+              baseColor: white,
+              highlightColor: grey,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2.0),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 2.0),
+                        ),
+                        Container(
+                          width: 40.0,
+                          height: 8.0,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

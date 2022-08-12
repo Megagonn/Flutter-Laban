@@ -20,7 +20,7 @@ class _ProductsState extends State<Products> {
     // var map = widget.map;
     return Container(
       // height: 600,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(15),
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
           color:widget.bg, borderRadius: BorderRadius.circular(15)),
@@ -32,8 +32,9 @@ class _ProductsState extends State<Products> {
             children: [
               Container(
                 padding: const EdgeInsets.all(2),
+                // margin: const EdgeInsets.only(bottom: 2),
                 decoration: BoxDecoration(
-                    color: white, borderRadius: BorderRadius.circular(30)),
+                    color: trans, borderRadius: BorderRadius.circular(30)),
                 child: CircleAvatar(
                   backgroundColor: trans,
                   child: IconButton(
@@ -51,12 +52,10 @@ class _ProductsState extends State<Products> {
               ),
             ],
           ),
-          Center(
-            child: Container(
-              height: 120,
-              margin: const EdgeInsets.all(5),
+          Expanded(
+            child: Center(
               child: AspectRatio(
-                  aspectRatio: 2 / 3, child: Image.network(widget.map.pics)),
+                  aspectRatio: 1, child: Image.network(widget.map.pics)),
             ),
           ),
           Text(
