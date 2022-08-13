@@ -247,7 +247,7 @@ class _GoodsState extends State<Goods> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  PayNow(email: 'abc@gmail.com', price: int.parse(product.price), ctx: context).chargeNow();
+                                  PayNow(email: 'abc@gmail.com', price: int.parse(product.price)*_counter, ctx: context, name: product.name, quantity: _counter.toString()).chargeNow();
                                   // print(product);
 
                                   // Navigator.push(

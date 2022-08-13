@@ -7,11 +7,16 @@ import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:laban/constant/constant.dart';
 
 class PayNow {
-  final String email;
+  final String email, name, quantity;
   final int price;
   final BuildContext ctx;
 
-  PayNow({required this.email, required this.price, required this.ctx});
+  PayNow(
+      {required this.name,
+      required this.quantity,
+      required this.email,
+      required this.price,
+      required this.ctx});
 
   ///ref, card ui, plugin, charge func, call
 
@@ -25,15 +30,17 @@ class PayNow {
       platform = "Android";
     }
 
-    return "chargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}";
+    return "chargedFrom${platform}_for_${name}_${quantity}_${DateTime.now().millisecondsSinceEpoch}";
   }
 
   PaymentCard cardUi() {
     return PaymentCard(
-        number: '507850785078507812',
-        cvc: '081',
-        expiryMonth: 08,
-        expiryYear: 23);
+      name: '',
+      number: '507850785078507812',
+      cvc: '081',
+      expiryMonth: 08,
+      expiryYear: 23,
+    );
   }
 
   Future initialisePlugin() async {
