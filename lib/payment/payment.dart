@@ -30,10 +30,10 @@ class PayNow {
 
   PaymentCard cardUi() {
     return PaymentCard(
-        number: '0000 0000 00000 0000',
-        cvc: '000',
-        expiryMonth: 1,
-        expiryYear: 1);
+        number: '507850785078507812',
+        cvc: '081',
+        expiryMonth: 08,
+        expiryYear: 23);
   }
 
   Future initialisePlugin() async {
@@ -47,7 +47,7 @@ class PayNow {
         ..email = email
         ..reference = _getRef()
         ..card = cardUi()
-        ..currency = "USD";
+        ..currency = "NGN";
       // ..locale = 'USA';
       // charge.amount = price;
       // charge.email = email;
@@ -60,7 +60,7 @@ class PayNow {
           ));
 
       if (checkoutResponse.status) {
-        print(checkoutResponse.message);
+        print(checkoutResponse.reference);
       } else {
         print(checkoutResponse.message);
       }
