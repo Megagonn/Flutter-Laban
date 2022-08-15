@@ -9,9 +9,9 @@ class CartItem extends StatefulWidget {
   @override
   State<CartItem> createState() => _CartItemState();
 }
+int count = 1;
 
 class _CartItemState extends State<CartItem> {
-  int count = 0;
   increment() {
     setState(() {
       count++;

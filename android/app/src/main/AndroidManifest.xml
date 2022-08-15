@@ -2,7 +2,7 @@
     package="com.example.laban">
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
-        android:label="laban"
+        android:label="Laban"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

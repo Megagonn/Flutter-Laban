@@ -28,13 +28,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Landing()
+      home: const Landing(),
       // Home(),
       // Login()
       // SignUp(),
+      routes: {
+        '/': (context) => const Landing(),
+      },
     );
   }
 }
-
-
-

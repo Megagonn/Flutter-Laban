@@ -29,17 +29,16 @@ class _CartState extends State<Cart> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCart();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: lgrey,
-        body: Padding(
+    return Scaffold(
+      backgroundColor: lgrey,
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.all(14),
           child: SingleChildScrollView(
             child: Column(
@@ -53,7 +52,7 @@ class _CartState extends State<Cart> {
                   ],
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 10,
                 ),
                 FutureBuilder(
                     future: getCart(),
@@ -83,13 +82,13 @@ class _CartState extends State<Cart> {
                                       // bg: value % 2 == 0 ? c1 : c2,
                                     ),
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: ((context) => const Goods()),
-                                          settings: RouteSettings(arguments: map),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: ((context) => const Goods()),
+                                      //     settings: RouteSettings(arguments: map),
+                                      //   ),
+                                      // );
                                     },
                                   );
                                 }),
@@ -101,6 +100,7 @@ class _CartState extends State<Cart> {
                         }
                       }
                     }),
+                    const Spacer(),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(3),

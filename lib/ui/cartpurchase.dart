@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:laban/payment/payment.dart';
 
 import '../color.dart';
 import '../utilities/backbutton.dart';
@@ -23,9 +25,9 @@ class _CartPurchaseState extends State<CartPurchase> {
     num shippingFee = shipping ? 1050 : 550;
     for (var i = 0; i < cartList.length; i++) {
       count = count + (cartList[i]['count']);
-      subTotal = subTotal + (int.parse(cartList[i]['price']) * (cartList[i]['count']));
-      total = subTotal * count +
-          (shipping ? 1050 : 550);
+      subTotal =
+          subTotal + (int.parse(cartList[i]['price']) * (cartList[i]['count']));
+      total = subTotal * count + (shipping ? 1050 : 550);
     }
     var strTotal = subTotal.toString();
     return Scaffold(
@@ -329,7 +331,22 @@ class _CartPurchaseState extends State<CartPurchase> {
                           ],
                         ),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            var response = await PayNow(
+                                    name: 'Goods',
+                                    quantity: count.toString(),
+                                    price: int.parse(strTotal),
+                                    ctx: context,
+                                    email: "laban@gmail.com")
+                                .chargeNow();
+                            response.status
+                                ? Navigator.pushNamedAndRemoveUntil(
+                                    context, '/', (route) => true)
+                                : null;
+                            if (kDebugMode) {
+                              print({response.status, response.message});
+                            }
+                          },
                           child: Text(
                             "Check Out",
                             style: TextStyle(color: white),
