@@ -1,19 +1,26 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:laban/providers/count_provider.dart';
 import 'package:laban/ui/home.dart';
 import 'package:laban/ui/landing.dart';
 import 'package:laban/ui/login.dart';
 import 'package:laban/ui/signup.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      child: const MyApp(),
+      providers: [ChangeNotifierProvider(create: (_) => CountNotifier())],
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +40,7 @@ class MyApp extends StatelessWidget {
       // Login()
       // SignUp(),
       routes: {
-        '/': (context) => const Landing(),
+        '/landing': (context) => const Landing(),
       },
     );
   }

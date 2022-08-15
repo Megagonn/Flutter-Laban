@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:laban/payment/payment.dart';
-
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import '../color.dart';
 import '../utilities/backbutton.dart';
 
@@ -15,6 +15,8 @@ class CartPurchase extends StatefulWidget {
 }
 
 class _CartPurchaseState extends State<CartPurchase> {
+  final CurrencyTextInputFormatter formatter =
+      CurrencyTextInputFormatter(decimalDigits: 00, symbol: "NGN");
   bool shipping = true;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _CartPurchaseState extends State<CartPurchase> {
       count = count + (cartList[i]['count']);
       subTotal =
           subTotal + (int.parse(cartList[i]['price']) * (cartList[i]['count']));
-      total = subTotal * count + (shipping ? 1050 : 550);
+      total = subTotal + (shipping ? 1050 : 550);
     }
     var strTotal = subTotal.toString();
     return Scaffold(
@@ -67,7 +69,7 @@ class _CartPurchaseState extends State<CartPurchase> {
               child: Flexible(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     // CircleAvatar(
                     //   radius: 70,
                     //   backgroundColor: trans,
@@ -298,14 +300,14 @@ class _CartPurchaseState extends State<CartPurchase> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Subtotal ($count items)"),
-                          Text("# $subTotal")
+                          Text(formatter.format(subTotal.toString())),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text("Shipping cost"),
-                          Text("#$shippingFee")
+                          Text(formatter.format(shippingFee.toString()))
                         ],
                       ),
                       Divider(color: dgrey, height: 4),
@@ -315,7 +317,10 @@ class _CartPurchaseState extends State<CartPurchase> {
                           const Text("Total",
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500)),
-                          Text("# $strTotal",
+                          Text(
+                              shipping
+                                  ? formatter.format(total.toString())
+                                  : formatter.format(strTotal),
                               style: const TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500))
                         ],
@@ -335,13 +340,13 @@ class _CartPurchaseState extends State<CartPurchase> {
                             var response = await PayNow(
                                     name: 'Goods',
                                     quantity: count.toString(),
-                                    price: int.parse(strTotal),
+                                    price: int.parse(total.toString()) * 100,
                                     ctx: context,
                                     email: "laban@gmail.com")
                                 .chargeNow();
                             response.status
                                 ? Navigator.pushNamedAndRemoveUntil(
-                                    context, '/', (route) => true)
+                                    context, '/landing', (route) => true)
                                 : null;
                             if (kDebugMode) {
                               print({response.status, response.message});

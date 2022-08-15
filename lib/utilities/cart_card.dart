@@ -1,6 +1,10 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
+import 'package:laban/providers/count_provider.dart';
+import 'package:provider/provider.dart';
 
 class CartItem extends StatefulWidget {
   final dynamic object;
@@ -9,13 +13,18 @@ class CartItem extends StatefulWidget {
   @override
   State<CartItem> createState() => _CartItemState();
 }
+
 int count = 1;
 
 class _CartItemState extends State<CartItem> {
+  CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter(symbol: 'NGN', decimalDigits: 00);
   increment() {
     setState(() {
       count++;
-      print(count);
+      if (kDebugMode) {
+        print(count);
+        CountNotifier().countIncrement(count);
+      }
     });
   }
 
@@ -23,7 +32,10 @@ class _CartItemState extends State<CartItem> {
     if (count > 1) {
       setState(() {
         count--;
-        print(count);
+        if (kDebugMode) {
+          print(count);
+          CountNotifier().countDecrement(count);
+        }
       });
     }
   }
@@ -60,17 +72,26 @@ class _CartItemState extends State<CartItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const SizedBox(height:20,),
-                      Text(
-                        widget.object['object'].name,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22,)
+                      const SizedBox(
+                        height: 20,
                       ),
-                      Text(
-                        widget.object['object'].price,
-                        style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 22,)
-                      ),
+                      Text(widget.object['object'].name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          )),
+                      Text(formatter.format(widget.object['object'].price),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 16,
+                          )),
                       // const Spacer(),
-                      TextButton(onPressed: (){}, child: const Text("Remove Item", style: TextStyle(color: Colors.redAccent),))
+                      TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "Remove Item",
+                            style: TextStyle(color: Colors.redAccent),
+                          ))
                     ],
                   ),
                   Column(
@@ -98,8 +119,11 @@ class _CartItemState extends State<CartItem> {
                       CircleAvatar(
                           foregroundColor: dgrey,
                           backgroundColor: trans,
-                          child: Text(
-                            count.toString(),
+                          child:
+                              // count.toString(),
+                              Consumer<CountNotifier>(
+                            builder: (_, value, __) =>
+                                Text(value.tempCount.toString()),
                           )),
                       CircleAvatar(
                         // radius: 14,

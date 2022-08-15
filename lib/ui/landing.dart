@@ -33,10 +33,10 @@ class _LandingState extends State<Landing> {
       // iconData: CupertinoIcons.home,
       widget: const Icon(CupertinoIcons.home),
     ),
-    BottomNavItem(
-        title: 'Profile',
-        // iconData: CupertinoIcons.person,
-        widget: const Icon(CupertinoIcons.person)),
+    // BottomNavItem(
+    //     title: 'Profile',
+    //     // iconData: CupertinoIcons.person,
+    //     widget: const Icon(CupertinoIcons.person)),
     BottomNavItem(
         title: 'Cart',
         // iconData: CupertinoIcons.shopping_cart,
@@ -55,7 +55,7 @@ class _LandingState extends State<Landing> {
 
   List<Widget> list = [
     const Home(),
-    const Text('Profile'),
+    // const Text('Profile'),
     const Cart(),
   ];
 

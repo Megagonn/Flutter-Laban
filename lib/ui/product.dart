@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:laban/model/model.db.dart';
 import 'package:laban/payment/payment.dart';
@@ -19,6 +20,8 @@ class Goods extends StatefulWidget {
 }
 
 class _GoodsState extends State<Goods> {
+  final CurrencyTextInputFormatter formatter =
+      CurrencyTextInputFormatter(decimalDigits: 00, symbol: "NGN");
   bool filled = false;
   // ignore: prefer_final_fields
   int _counter = 1;
@@ -154,7 +157,7 @@ class _GoodsState extends State<Goods> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Icon(Icons.star, color: primary),
-                                Text('(product.rating)')
+                                const Text('(product.rating)')
                               ],
                             ),
                           ],
@@ -190,8 +193,8 @@ class _GoodsState extends State<Goods> {
                               )),
                         ),
                         Text(
-                          '#${product.price}',
-                          style: TextStyle(color: orange),
+                          formatter.format(product.price),
+                          style: TextStyle(color: orange, fontWeight: FontWeight.bold),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,7 +250,15 @@ class _GoodsState extends State<Goods> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  PayNow(email: 'abc@gmail.com', price: int.parse(product.price)*_counter, ctx: context, name: product.name, quantity: _counter.toString()).chargeNow();
+                                  PayNow(
+                                          email: 'abc@gmail.com',
+                                          price: int.parse(product.price) *
+                                              _counter *
+                                              100,
+                                          ctx: context,
+                                          name: product.name,
+                                          quantity: _counter.toString())
+                                      .chargeNow();
                                   // print(product);
 
                                   // Navigator.push(
@@ -280,14 +291,14 @@ class _GoodsState extends State<Goods> {
   }
 
   // ignore: unused_element
-  _buildQuickPay() {
-    showBottomSheet(
-        context: context,
-        builder: ((context) => Container(
-              padding: const EdgeInsets.all(20),
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
-              child: Column(children: [Text('Pay')]),
-            )));
-  }
+  // _buildQuickPay() {
+  //   showBottomSheet(
+  //       context: context,
+  //       builder: ((context) => Container(
+  //             padding: const EdgeInsets.all(20),
+  //             decoration:
+  //                 BoxDecoration(borderRadius: BorderRadius.circular(15)),
+  //             child: Column(children: [Text('Pay')]),
+  //           )));
+  // }
 }

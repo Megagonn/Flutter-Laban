@@ -6,7 +6,7 @@ import 'package:laban/model/model.db.dart';
 import 'package:laban/model/model.product.dart';
 import 'package:laban/ui/cartPurchase.dart';
 import 'package:laban/ui/product.dart';
-import 'package:laban/utilities/cartlist.dart';
+import 'package:laban/utilities/cart_card.dart';
 import 'package:laban/utilities/gen.utl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,6 +68,7 @@ class _CartState extends State<Cart> {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height - 224,
                             child: ListView.builder(
+                              reverse: true,
                                 // gridDelegate:
                                 //     const SliverGridDelegateWithFixedCrossAxisCount(
                                 //         mainAxisSpacing: 8,
@@ -100,7 +101,7 @@ class _CartState extends State<Cart> {
                         }
                       }
                     }),
-                    const Spacer(),
+                    // const Spacer(),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(3),
