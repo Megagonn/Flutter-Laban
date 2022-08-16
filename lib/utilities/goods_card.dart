@@ -1,10 +1,12 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:laban/model/model.product.dart';
 
 import '../color.dart';
 
 class Products extends StatefulWidget {
-  const Products({Key? key, required this.map, required this.bg}) : super(key: key);
+  const Products({Key? key, required this.map, required this.bg})
+      : super(key: key);
   final Product map;
   final Color bg;
 
@@ -13,6 +15,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
+  CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter(symbol: 'NGN',);
   bool filled = false;
 
   @override
@@ -23,7 +26,7 @@ class _ProductsState extends State<Products> {
       padding: const EdgeInsets.all(15),
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-          color:widget.bg, borderRadius: BorderRadius.circular(15)),
+          color: widget.bg, borderRadius: BorderRadius.circular(15)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -66,7 +69,7 @@ class _ProductsState extends State<Products> {
           Container(
               margin: const EdgeInsets.only(top: 4),
               child: Text(
-                "#${widget.map.price}",
+                formatter.format(widget.map.price),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               )),
         ],

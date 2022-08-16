@@ -17,7 +17,8 @@ class CartItem extends StatefulWidget {
 int count = 1;
 
 class _CartItemState extends State<CartItem> {
-  CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter(symbol: 'NGN', decimalDigits: 00);
+  CurrencyTextInputFormatter formatter =
+      CurrencyTextInputFormatter(symbol: 'NGN', decimalDigits: 00);
   increment() {
     setState(() {
       count++;
@@ -111,7 +112,12 @@ class _CartItemState extends State<CartItem> {
                           // radius: 20,
                           backgroundColor: white,
                           child: IconButton(
-                            onPressed: decrement,
+                            onPressed: () {
+                              if (kDebugMode) {
+                                print("Decreasing cart...");
+                              }
+                              decrement();
+                            },
                             icon: const Icon(Icons.remove_sharp),
                           ),
                         ),
@@ -129,7 +135,12 @@ class _CartItemState extends State<CartItem> {
                         // radius: 14,
                         backgroundColor: orange,
                         child: IconButton(
-                          onPressed: increment,
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print("Increasing cart...");
+                            }
+                            increment();
+                          },
                           icon: const Icon(Icons.add_sharp),
                         ),
                       )

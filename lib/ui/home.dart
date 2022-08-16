@@ -8,7 +8,7 @@ import 'package:laban/color.dart';
 import 'package:laban/model/model.product.dart';
 import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cat.utl.dart';
-import 'package:laban/utilities/gen.utl.dart';
+import 'package:laban/utilities/goods_card.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
 import 'package:shimmer/shimmer.dart';
 
