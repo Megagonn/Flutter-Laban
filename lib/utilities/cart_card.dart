@@ -1,10 +1,11 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
 import 'package:laban/providers/count_provider.dart';
+import 'package:laban/service/api.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class CartItem extends StatefulWidget {
   final dynamic object;
@@ -19,24 +20,36 @@ int count = 1;
 class _CartItemState extends State<CartItem> {
   CurrencyTextInputFormatter formatter =
       CurrencyTextInputFormatter(symbol: 'NGN', decimalDigits: 00);
-  increment() {
-    setState(() {
-      count++;
-      if (kDebugMode) {
-        print(count);
-        CountNotifier().countIncrement(count);
-      }
+  increment() async {
+    var url = Uri.parse(Api.increaseCartItem);
+    var response = await http.post(url, body: {
+      'email': 'abc@gmail.com',
+      'productId': 1,
     });
+    if (response.body == 'success') {
+      setState(() {
+        count++;
+        // if (kDebugMode) {
+        //   print(count);
+        //   CountNotifier().countIncrement(count);
+        // }
+      });
+    }
   }
 
-  decrement() {
-    if (count > 1) {
+  decrement() async{
+    var url = Uri.parse(Api.decreaseCartItem);
+    var response = await http.post(url, body: {
+      'email': 'abc@gmail.com',
+      'productId': 1,
+    });
+    if (response.body == 'success') {
       setState(() {
-        count--;
-        if (kDebugMode) {
-          print(count);
-          CountNotifier().countDecrement(count);
-        }
+        count++;
+        // if (kDebugMode) {
+        //   print(count);
+        //   CountNotifier().countIncrement(count);
+        // }
       });
     }
   }

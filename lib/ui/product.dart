@@ -1,16 +1,23 @@
+// import 'dart:convert';
+// import 'dart:ui';
+
 import 'dart:convert';
-import 'dart:ui';
+import 'dart:developer';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:laban/model/model.db.dart';
+// import 'package:laban/model/model.db.dart';
 import 'package:laban/payment/payment.dart';
-import 'package:laban/ui/purchase.dart';
-import 'package:laban/utilities/snackbar.utl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:laban/service/api.dart';
+import 'package:laban/utilities/cart_card.dart';
+// import 'package:laban/ui/purchase.dart';
+// import 'package:laban/utilities/snackbar.utl.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 import '../color.dart';
 import '../utilities/backbutton.dart';
+import 'package:http/http.dart' as http;
 
 class Goods extends StatefulWidget {
   const Goods({Key? key}) : super(key: key);
@@ -80,21 +87,33 @@ class _GoodsState extends State<Goods> {
                               color: primary,
                             ),
                             onPressed: () async {
-                              // await MyDb.db.toDelete();
-                              List favourites =
-                                  await MyDb.db.getDatabaseInfo() ?? [];
-                              var checkCart = favourites.where((element) =>
-                                  element['name'] == product.name &&
-                                  element['price'] == product.price);
-                              if (checkCart.isEmpty) {
-                                await MyDb.db.addDatabase(product, _counter);
-                                SnackSheet().snack(
-                                    context: context,
-                                    message: "Product added to cart");
-                              } else {
-                                SnackSheet().snack(
-                                    context: context,
-                                    message: "Product already added to cart");
+                              // //await MyDb.db.toDelete();
+                              // List favourites =
+                              //     await MyDb.db.getDatabaseInfo() ?? [];
+                              // var checkCart = favourites.where((element) =>
+                              //     element['name'] == product.name &&
+                              //     element['price'] == product.price);
+                              // if (checkCart.isEmpty) {
+                              //   await MyDb.db.addDatabase(product, _counter);
+                              //   SnackSheet().snack(
+                              //       context: context,
+                              //       message: "Product added to cart");
+                              // } else {
+                              //   SnackSheet().snack(
+                              //       context: context,
+                              //       message: "Product already added to cart");
+                              // }
+                              var data = {
+                                'email': 'abc@gmail.com',
+                                'items': [
+                                  {"productId": 1, 'count': _counter}
+                                ]
+                              };
+                              var url = Uri.parse(Api.addToCart);
+                              http.Response response =
+                                 await http.post(url, body: jsonEncode(data));
+                              if (kDebugMode) {
+                                print(response.body);
                               }
                             },
                           ),
@@ -194,7 +213,8 @@ class _GoodsState extends State<Goods> {
                         ),
                         Text(
                           formatter.format(product.price),
-                          style: TextStyle(color: orange, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: orange, fontWeight: FontWeight.bold),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

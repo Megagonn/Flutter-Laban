@@ -10,6 +10,7 @@ import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cat.utl.dart';
 import 'package:laban/utilities/goods_card.dart';
 import 'package:laban/utilities/hotsales.utl.dart';
+import 'package:laban/utilities/shimer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyBottomNavItem {
@@ -169,7 +170,7 @@ class _HomeState extends State<Home> {
                       builder: (context, AsyncSnapshot<dynamic> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return _shimmerBuilder(context);
+                          return shimmerBuilder(context);
                         } else {
                           var data = jsonDecode(snapshot.data);
                           var list = <Widget>[];
@@ -226,13 +227,13 @@ class _HomeState extends State<Home> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Column(
                           children: [
-                            _shimmerBuilder(context),
+                            shimmerBuilder(context),
                             const SizedBox(height: 20,),
-                            _shimmerBuilder(context),
+                            shimmerBuilder(context),
                             const SizedBox(height: 20,),
-                            _shimmerBuilder(context),
+                            shimmerBuilder(context),
                             const SizedBox(height: 20,),
-                            _shimmerBuilder(context),
+                            shimmerBuilder(context),
                           ],
                         );
                       } else {
@@ -278,124 +279,4 @@ class _HomeState extends State<Home> {
     ));
   }
 
-  Widget _shimmerBuilder(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width / 2,
-            // height: 90.0,
-            child: Shimmer.fromColors(
-              baseColor: white,
-              highlightColor: grey,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 80.0,
-                    height: 80.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2.0),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2.0),
-                        ),
-                        Container(
-                          width: 40.0,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                        
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width / 2,
-            // height: 90.0,
-            child: Shimmer.fromColors(
-              baseColor: white,
-              highlightColor: grey,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 80.0,
-                    height: 80.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2.0),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 2.0),
-                        ),
-                        Container(
-                          width: 40.0,
-                          height: 8.0,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
   }
-}

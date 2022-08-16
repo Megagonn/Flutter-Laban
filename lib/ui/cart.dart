@@ -1,14 +1,20 @@
+// import 'dart:convert';
+// import 'dart:io';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:laban/color.dart';
-import 'package:laban/model/model.db.dart';
+// import 'package:laban/model/model.db.dart';
 import 'package:laban/model/model.product.dart';
+import 'package:laban/service/api.dart';
 import 'package:laban/ui/cartPurchase.dart';
-import 'package:laban/ui/product.dart';
+// import 'package:laban/ui/product.dart';
 import 'package:laban/utilities/cart_card.dart';
-import 'package:laban/utilities/goods_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:laban/utilities/goods_card.dart';
+import 'package:laban/utilities/shimer.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -22,9 +28,13 @@ class _CartState extends State<Cart> {
   bool carted = true;
   bool canCheckOut = false;
   getCart() async {
-    var info = await MyDb.db.getDatabaseInfo();
-    info != null ? canCheckOut = true : null;
-    return info;
+    // var info = await MyDb.db.getDatabaseInfo();
+    // info != null ? canCheckOut = true : null;
+    // return info;
+    var url = Uri.parse(Api.getCart);
+    http.Response response = await http.get(url);
+    print(response.body);
+    return jsonDecode(response.body)['items'];
   }
 
   @override
@@ -61,15 +71,42 @@ class _CartState extends State<Cart> {
                 child: FutureBuilder(
                     future: getCart(),
                     builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return CircularProgressIndicator.adaptive(
-                          backgroundColor: primary,
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              shimmerBuilder(context),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         );
                       } else {
                         if (snapshot.hasData) {
                           var data = snapshot.data;
                           cartList = data;
+                          print(data);
                           // setState(() {});
                           return SizedBox(
                             height: MediaQuery.of(context).size.height,
@@ -83,8 +120,7 @@ class _CartState extends State<Cart> {
                                 itemCount: data!.length,
                                 itemBuilder: (context, value) {
                                   var map = {
-                                    "object":
-                                        Product.fromMapCart(data[value]),
+                                    "object": Product.fromMapCart(data[value]),
                                     'count': 1
                                   };
                                   return InkWell(
@@ -112,14 +148,16 @@ class _CartState extends State<Cart> {
                       }
                     }),
               ),
-              
+
               Container(
-                margin: const EdgeInsets.only(top: 5,),
+                margin: const EdgeInsets.only(
+                  top: 5,
+                ),
                 height: 40,
                 width: MediaQuery.of(context).size.width,
                 // padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: cartList.isNotEmpty? orange : lgrey,
+                  color: cartList.isNotEmpty ? orange : lgrey,
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: const [
                     // BoxShadow(blurRadius: .5, spreadRadius: .9)
