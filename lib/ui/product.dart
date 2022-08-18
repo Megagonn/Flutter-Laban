@@ -1,8 +1,8 @@
 // import 'dart:convert';
 // import 'dart:ui';
 
-import 'dart:convert';
-import 'dart:developer';
+// import 'dart:convert';
+// import 'dart:developer';
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 // import 'package:laban/model/model.db.dart';
 import 'package:laban/payment/payment.dart';
 import 'package:laban/service/api.dart';
-import 'package:laban/utilities/cart_card.dart';
+// import 'package:laban/utilities/cart_card.dart';
 // import 'package:laban/ui/purchase.dart';
 // import 'package:laban/utilities/snackbar.utl.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +18,7 @@ import 'package:laban/utilities/cart_card.dart';
 import '../color.dart';
 import '../utilities/backbutton.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class Goods extends StatefulWidget {
   const Goods({Key? key}) : super(key: key);
@@ -104,16 +105,23 @@ class _GoodsState extends State<Goods> {
                               //       message: "Product already added to cart");
                               // }
                               var data = {
-                                'email': 'abc@gmail.com',
-                                'items': [
-                                  {"productId": 1, 'count': _counter}
-                                ]
+                                'email': 'a@gmail.com',
+                                'items': {
+                                  "productId": product.name,
+                                  'count': _counter
+                                }
+                                //  [
+                                //
+                                // ]
                               };
-                              var url = Uri.parse(Api.addToCart);
-                              http.Response response =
-                                 await http.post(url, body: jsonEncode(data));
+                              // print(jsonEncode(data));
+                              // var url = Uri.parse(Api.addToCart);
+                              // http.Response response =
+                              //    await http.post(url, body: (data));
+                              var response = await Dio().post(Api.addToCart,data: data);
                               if (kDebugMode) {
-                                print(response.body);
+                                print("This is data: $data");
+                                print(response.data);
                               }
                             },
                           ),
