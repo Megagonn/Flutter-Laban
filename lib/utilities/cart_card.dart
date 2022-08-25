@@ -26,7 +26,7 @@ class _CartItemState extends State<CartItem> {
       'email': 'a@gmail.com',
       'productId': widget.object['productId'],
     });
-    print(response.body);
+    // print(response.body);
     if (response.body == 'success') {
       setState(() {
         // count++;
@@ -40,13 +40,13 @@ class _CartItemState extends State<CartItem> {
 
   decrement() async {
     var url = Uri.parse(Api.decreaseCartItem);
-    var response = await http.post(url, body: {
-      'email': 'abc@gmail.com',
-      'productId': 1,
+    var response = await http.patch(url, body: {
+      'email': 'a@gmail.com',
+      'productId': widget.object['productId'],
     });
     if (response.body == 'success') {
       setState(() {
-        count++;
+        // count++;
         // if (kDebugMode) {
         //   print(count);
         //   CountNotifier().countIncrement(count);
