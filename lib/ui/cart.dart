@@ -15,6 +15,7 @@ import 'package:laban/utilities/cart_card.dart';
 import 'package:laban/utilities/shimer.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -32,9 +33,11 @@ class _CartState extends State<Cart> {
     // info != null ? canCheckOut = true : null;
     // return info;
     var url = Uri.parse(Api.getCart);
-    http.Response response = await http.get(url);
+    http.Response response =
+        await http.post(url, body: {"email": "a@gmail.com"});
+    // await Dio().get()
     print(response.body);
-    return jsonDecode(response.body)['items'];
+    return jsonDecode(response.body);
   }
 
   @override
@@ -119,9 +122,14 @@ class _CartState extends State<Cart> {
                                 //         mainAxisExtent: 200),
                                 itemCount: data!.length,
                                 itemBuilder: (context, value) {
+                                  var cData = data[value];
                                   var map = {
-                                    "object": Product.fromMapCart(data[value]),
-                                    'count': 1
+                                    // "object": Product.fromMapCart(data[value]),
+                                    "pics": cData['pics'],
+                                    "name": cData["name"],
+                                    "productId": cData['productId'],
+                                    "price": cData['productId'],
+                                    "count": cData['count'],
                                   };
                                   return InkWell(
                                     child: CartItem(

@@ -34,7 +34,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Future getProducts() async {
-    var uri = "https://laban.herokuapp.com/admin/products/";
+    var uri = "https://laban.herokuapp.com/product/products/";
     var url = Uri.parse(uri);
     try {
       var response = await http.get(url);
@@ -228,17 +228,24 @@ class _HomeState extends State<Home> {
                         return Column(
                           children: [
                             shimmerBuilder(context),
-                            const SizedBox(height: 20,),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             shimmerBuilder(context),
-                            const SizedBox(height: 20,),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             shimmerBuilder(context),
-                            const SizedBox(height: 20,),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             shimmerBuilder(context),
                           ],
                         );
                       } else {
                         var data = snapshot.data;
                         var json = (jsonDecode(data));
+                        // print(json);
 
                         return SizedBox(
                           height: 290,
@@ -278,5 +285,4 @@ class _HomeState extends State<Home> {
       ),
     ));
   }
-
-  }
+}

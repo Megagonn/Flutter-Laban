@@ -6,15 +6,15 @@ import 'package:laban/ui/home.dart';
 import 'package:laban/ui/landing.dart';
 import 'package:laban/ui/login.dart';
 import 'package:laban/ui/signup.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+// import 'package:sqflite/sqflite.dart';
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
-  }
+  // if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+  //   sqfliteFfiInit();
+  //   databaseFactory = databaseFactoryFfi;
+  // }
   runApp(
     MultiProvider(
       child: const MyApp(),

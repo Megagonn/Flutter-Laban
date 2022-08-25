@@ -22,13 +22,14 @@ class _CartItemState extends State<CartItem> {
       CurrencyTextInputFormatter(symbol: 'NGN', decimalDigits: 00);
   increment() async {
     var url = Uri.parse(Api.increaseCartItem);
-    var response = await http.post(url, body: {
-      'email': 'abc@gmail.com',
-      'productId': 1,
+    var response = await http.patch(url, body: {
+      'email': 'a@gmail.com',
+      'productId': widget.object['productId'],
     });
+    print(response.body);
     if (response.body == 'success') {
       setState(() {
-        count++;
+        // count++;
         // if (kDebugMode) {
         //   print(count);
         //   CountNotifier().countIncrement(count);
@@ -37,7 +38,7 @@ class _CartItemState extends State<CartItem> {
     }
   }
 
-  decrement() async{
+  decrement() async {
     var url = Uri.parse(Api.decreaseCartItem);
     var response = await http.post(url, body: {
       'email': 'abc@gmail.com',
@@ -56,7 +57,8 @@ class _CartItemState extends State<CartItem> {
 
   @override
   Widget build(BuildContext context) {
-    count = widget.object['count'];
+    var object = widget.object;
+    // count = int.parse(object['count']);
     return Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(bottom: 8),
@@ -72,8 +74,7 @@ class _CartItemState extends State<CartItem> {
                 height: 120,
                 margin: const EdgeInsets.all(5),
                 child: AspectRatio(
-                    aspectRatio: 2 / 3,
-                    child: Image.network(widget.object['object'].pics)),
+                    aspectRatio: 2 / 3, child: Image.network(object['pics'])),
               ),
             ),
             Flexible(
@@ -89,12 +90,12 @@ class _CartItemState extends State<CartItem> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(widget.object['object'].name,
+                      Text(object['name'],
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
                           )),
-                      Text(formatter.format(widget.object['object'].price),
+                      Text(formatter.format(object['price'].toString()),
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 16,
@@ -111,6 +112,28 @@ class _CartItemState extends State<CartItem> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      CircleAvatar(
+                        // radius: 14,
+                        backgroundColor: orange,
+                        child: IconButton(
+                          onPressed: () {
+                            if (kDebugMode) {
+                              print("Increasing cart...");
+                            }
+                            increment();
+                          },
+                          icon: const Icon(Icons.add_sharp),
+                        ),
+                      ),
+                      CircleAvatar(
+                        foregroundColor: dgrey,
+                        backgroundColor: trans,
+                        child: Text(object['count'].toString()),
+                        //     Consumer<CountNotifier>(
+                        //   builder: (_, value, __) =>
+                        //       Text(value.tempCount.toString()),
+                        // )
+                      ),
                       Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
@@ -135,28 +158,6 @@ class _CartItemState extends State<CartItem> {
                           ),
                         ),
                       ),
-                      CircleAvatar(
-                          foregroundColor: dgrey,
-                          backgroundColor: trans,
-                          child:
-                              // count.toString(),
-                              Consumer<CountNotifier>(
-                            builder: (_, value, __) =>
-                                Text(value.tempCount.toString()),
-                          )),
-                      CircleAvatar(
-                        // radius: 14,
-                        backgroundColor: orange,
-                        child: IconButton(
-                          onPressed: () {
-                            if (kDebugMode) {
-                              print("Increasing cart...");
-                            }
-                            increment();
-                          },
-                          icon: const Icon(Icons.add_sharp),
-                        ),
-                      )
                     ],
                   ),
                 ],

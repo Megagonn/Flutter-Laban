@@ -23,7 +23,7 @@ class Product {
 
   factory Product.fromMap(Map<dynamic, dynamic> map) {
     return Product(
-      id: map['_id'],
+      id: map['productId'],
       name: map['name'],
       description: map['description'],
       price: map['price'],
@@ -36,7 +36,7 @@ class Product {
   }
   factory Product.fromMapCart(Map<dynamic, dynamic> map) {
     return Product(
-      id: map['id'],
+      id: map['productId'],
       name: map['name'],
       description: map['description'],
       price: map['price'],
@@ -51,6 +51,7 @@ class Product {
     return {
       "name": map.name,
       "image": map.pics,
+      "productId": map.pics,
       "price": map.price,
       "category": map.category,
       "description": map.description,

@@ -7,6 +7,7 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:laban/model/model.product.dart';
 // import 'package:laban/model/model.db.dart';
 import 'package:laban/payment/payment.dart';
 import 'package:laban/service/api.dart';
@@ -49,7 +50,8 @@ class _GoodsState extends State<Goods> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic product = ModalRoute.of(context)!.settings.arguments;
+    Product product = ModalRoute.of(context)!.settings.arguments as Product;
+    // print(product.description);
     return SafeArea(
         bottom: false,
         child: Scaffold(
@@ -104,11 +106,15 @@ class _GoodsState extends State<Goods> {
                               //       context: context,
                               //       message: "Product already added to cart");
                               // }
+                              // Product? product;
                               var data = {
                                 'email': 'a@gmail.com',
                                 'items': {
-                                  "productId": product.name,
-                                  'count': _counter
+                                  "productId": product.id,
+                                  "name": product.name,
+                                  "price": product.price,
+                                  "count": _counter,
+                                  "pics": product.pics,
                                 }
                                 //  [
                                 //
@@ -118,7 +124,8 @@ class _GoodsState extends State<Goods> {
                               // var url = Uri.parse(Api.addToCart);
                               // http.Response response =
                               //    await http.post(url, body: (data));
-                              var response = await Dio().post(Api.addToCart,data: data);
+                              var response =
+                                  await Dio().post(Api.addToCart, data: data);
                               if (kDebugMode) {
                                 print("This is data: $data");
                                 print(response.data);
