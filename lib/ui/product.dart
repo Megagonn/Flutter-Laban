@@ -142,7 +142,7 @@ class _GoodsState extends State<Goods> {
                       margin: const EdgeInsets.all(10),
                       child: AspectRatio(
                         aspectRatio: 5 / 6,
-                        child: Image.network(product!.pics),
+                        child: Image.network(product.pics),
                       ),
                     ),
                   ),

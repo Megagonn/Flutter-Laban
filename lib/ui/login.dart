@@ -6,9 +6,10 @@ import 'package:laban/color.dart';
 
 
 import 'signup.dart';
+import 'landing.dart';
 
 class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -143,8 +144,8 @@ class _LoginState extends State<Login> {
                       ),
                       child: TextButton(
                           onPressed: () async {
-                            signin();
-                            if (signin()) {
+                            // signin();
+                            // if (signin()) {
                               // SharedPreferences pref =
                               //     await SharedPreferences.getInstance();
                               //   var decode = (pref.getString(
@@ -167,15 +168,19 @@ class _LoginState extends State<Login> {
                               //     };
                               //     await pref.setString(
                               //         "signup", jsonEncode(data));
-                              //     Navigator.pushReplacement(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //             builder: (context) => const Home()));
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => const Home()));
                               //   } else {
                               //     return _bottomS();
                               //   }
                               // }
-                            }
+                            // }
+                            Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Landing()));
                           },
                           child: Text(
                             "Login",
